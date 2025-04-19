@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "crypto-buddy"
+version = "0.1.0"
+description = "LSTM model, trained to predict next stocks market predictions"
+authors = ["w1ndrunn3rr <w1ndrunn3rr@gmail.com>"]
+readme = "README.md"
+packages = [
+    { include = "src/data_gatherers", from = "." },
+    { include = "src/model", from = "." },
+    { include = "test", from = "." },
+    { include = "main.py", from = "." },
+]
+
+[tool.poetry.dependencies]
+python = "3.12.9"
+dotenv = "^0.9.9"
+pytest = "^8.3.5"
+pandas = "^2.2.3"
+torch = "^2.6.0"
+scikit-learn = "^1.6.1"
+pydantic = "^2.11.3"
+requests = "^2.32.3"
+tqdm = "^4.67.1"
+
+[tool.pytest.ini_options]
+python_files = "test_*.py"
+testpaths = ["test"]
+
+[build-system]
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+train = "scripts.train:train"
+predict = "scripts.predict:predict"
+get_data = "scripts.get_data:get_data"
