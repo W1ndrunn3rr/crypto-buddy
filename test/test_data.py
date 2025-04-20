@@ -21,9 +21,9 @@ class DataCollectorTest(TestCase):
 
     def test_save_to_csv(self):
         data = [CryptoDataPoint(price=100, market_cap=200, total_volume=300)]
-        self.dc.save_to_csv(data)
-        self.assertTrue(os.path.exists("data_1.csv"))
-        os.remove("data_1.csv")
+        self.dc.save_to_csv(data, "data_test.csv")
+        self.assertTrue(os.path.exists("data_test.csv"))
+        os.remove("data_test.csv")
 
 
 class TestCryptoDataset(TestCase):
