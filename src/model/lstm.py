@@ -27,14 +27,8 @@ class MultiStepLSTM(nn.Module):
             if "weight" in name and "lstm" in name:
                 nn.init.orthogonal_(param)
 
-    def forward(self, x: torch.Tensor, forecast_size: int = 1) -> torch.Tensor:
-
+    def forward(self, x):
         x, _ = self.lstm(x)
-
         x = x[:, -1, :]
-
         x = self.linear_block(x)
-
-        x = self.output(x)
-
-        return x[:forecast_size, :]
+        return self.output(x).unsqueeze(1)

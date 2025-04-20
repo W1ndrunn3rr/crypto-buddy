@@ -6,9 +6,9 @@ from src.model.lstm import MultiStepLSTM
 import os
 
 
-def train():
+def train(currency: str = "bitcoin"):
     os.system("clear")
-    f_data = pd.read_csv("data/bitcoin_data.csv")
+    f_data = pd.read_csv(f"data/{currency}_data.csv")
 
     train_data = f_data.iloc[: int(len(f_data) * 0.8)]
     test_data = f_data.iloc[int(len(f_data) * 0.8) :]
@@ -24,13 +24,15 @@ def train():
             "mean": train_mean,
             "std": train_std,
         },
-        "data/normalization_stats.pt",
+        f"data/{currency}_normalization_stats.pt",
     )
 
     train_loader = torch.utils.data.DataLoader(
-        train_dataset, batch_size=8, shuffle=True
+        train_dataset, batch_size=16, shuffle=True
     )
-    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=8, shuffle=False)
+    test_loader = torch.utils.data.DataLoader(
+        test_dataset, batch_size=16, shuffle=False
+    )
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = MultiStepLSTM(input_size=3, hidden_size=128).to(device)
@@ -42,7 +44,7 @@ def train():
 
     criterion = torch.nn.HuberLoss(delta=0.3)
 
-    epochs = 100
+    epochs = 500
 
     for epoch in range(epochs):
         train_loss = 0.0
@@ -53,7 +55,8 @@ def train():
             X, y = X.to(device), y.to(device)
             optimizer.zero_grad()
 
-            y_pred = model(X, forecast_size=1).squeeze()
+            y_pred = model(X).squeeze()
+
             loss = criterion(y_pred, y)
 
             loss.backward()
@@ -77,7 +80,7 @@ def train():
             for X, y in test_loader:
                 X, y = X.to(device), y.to(device)
 
-                y_pred = model(X, forecast_size=1).squeeze()
+                y_pred = model(X).squeeze()
                 loss = criterion(y_pred, y)
                 val_loss += loss.item()
 
@@ -93,4 +96,4 @@ def train():
     print("Training complete")
     print("Saving model...")
     os.makedirs("data", exist_ok=True)
-    torch.save(model.state_dict(), "data/model.pth")
+    torch.save(model.state_dict(), f"data/{currency}_model.pth")

@@ -41,11 +41,11 @@ class DataCollector:
 
         return data_points
 
-    def save_to_csv(self, data: List[CryptoDataPoint]) -> None:
+    def save_to_csv(self, data: List[CryptoDataPoint], path: str) -> None:
         data_dicts = [item.model_dump() for item in data]
 
         df = pd.DataFrame(data_dicts)
         df = df[["price", "market_cap", "total_volume"]]
-        df.to_csv("data/data.csv", index=False)
+        df.to_csv(path, index=False)
 
-        print("Data saved to data.csv")
+        print(f"Data saved to {path}")
