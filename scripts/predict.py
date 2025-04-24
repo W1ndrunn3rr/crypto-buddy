@@ -30,8 +30,8 @@ def predict(currency: str = "bitcoin", forecast_days: int = 7):
         model.eval()
         prediction = model(normalized_tensor).squeeze()
         print("────────────────────────────────────────────")
-        print(f"STD: {std[0]} $")
-        print(f"MEAN: {mean[0]} $")
+        print(f"STD: {round(std[0],2)} $")
+        print(f"MEAN: {round(mean[0],2)} $")
         print("────────────────────────────────────────────")
         print(f"CURRENCY: {currency.upper()}")
         for i in range(len(prediction)):

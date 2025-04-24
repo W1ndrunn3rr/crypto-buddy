@@ -50,16 +50,16 @@ poetry run train bitcoin
 *Note:* If data doesn't exist, run `getdata` first.
 
 ### Making Predictions
-To generate predictions (default: 7-day forecast):
+To generate predictions for currency (e.g., Bitcoin) for 3 days (default: 7-day forecast):
 ```bash
-poetry run predict bitcoin
+poetry run predict bitcoin 3
 ```
 
 ### Full Pipeline
-To execute the entire pipeline (fetch data → train → predict):
+To execute the entire pipeline (fetch data → train → predict) [for example bitcoin for 21 days forecast]:
 ```bash
 chmod +x run.sh
-./run.sh bitcoin
+./run.sh bitcoin 21
 ```
 
 ## Project Structure
@@ -80,6 +80,7 @@ chmod +x run.sh
 - For training, pre-downloaded data can be used.
 - Predictions require fresh API calls due to market volatility.
 - Default prediction horizon is 7 days (configurable in code).
+- Project uses USD currency 
 
 
 ## Important disclaimer
