@@ -7,7 +7,6 @@ import os
 
 
 def train(currency: str = "bitcoin"):
-    os.system("clear")
     f_data = pd.read_csv(f"data/{currency}_data.csv")
 
     train_data = f_data.iloc[: int(len(f_data) * 0.8)]
@@ -44,7 +43,7 @@ def train(currency: str = "bitcoin"):
 
     criterion = torch.nn.HuberLoss(delta=0.3)
 
-    epochs = 500
+    epochs = 50
 
     for epoch in range(epochs):
         train_loss = 0.0

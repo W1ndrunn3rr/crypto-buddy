@@ -29,13 +29,12 @@ def predict(currency: str = "bitcoin", forecast_days: int = 7):
     with torch.no_grad():
         model.eval()
         prediction = model(normalized_tensor).squeeze()
+        print("────────────────────────────────────────────")
+        print(f"STD: {std[0]} $")
+        print(f"MEAN: {mean[0]} $")
+        print("────────────────────────────────────────────")
+        print(f"CURRENCY: {currency.upper()}")
         for i in range(len(prediction)):
             predicted_price = prediction[i] * std[0] + mean[0]
             print("────────────────────────────────────────────")
-            print(f"CURRENCY: {currency.upper()}")
-            print(f"PREDICTION FOR DAY {i+1}:")
-            print("────────────────────────────────────────────")
-            print(f"PREDICTION : {round(predicted_price.item(),2)} USD")
-            print(f"STD: {std}")
-            print(f"MEAN: {mean}")
-            print("────────────────────────────────────────────")
+            print(f"DAY {i + 1} : {round(predicted_price.item(),2)} $")

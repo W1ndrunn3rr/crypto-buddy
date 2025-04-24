@@ -2,6 +2,7 @@ import click
 from scripts.predict import predict
 from scripts.train import train
 from scripts.get_data import get_data
+import os
 
 
 @click.group()
@@ -31,6 +32,9 @@ def cli_train(currency):
 @click.argument("currency", default="bitcoin")
 def cli_get_data(currency):
     """Fetch data for given cryptocurrency"""
+    if os.path.exists(f"data/{currency}_data.csv"):
+        click.echo(f"Data for {currency} already exists. Skipping download.")
+        return
     click.echo(f"Fetching data for: {currency}")
     get_data(currency)
 
