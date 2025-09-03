@@ -18,6 +18,8 @@ dist/
 build/
 *.egg
 *.whl
+*.env*
+.env
 
 # Poetry specific
 poetry.lock
